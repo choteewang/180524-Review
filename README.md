@@ -2,8 +2,6 @@
 
 ### 首屏性能优化
 
-首屏性能优化: 
-
 > 页面同步加载过程: 
 
   * 视觉预期: 入口loading组件, 页头progressBar, 增加首屏视觉预期
@@ -38,3 +36,70 @@
     * 预解析dns: 用meta标签和link标签设置隐式dns预解析和显式dns预解析, 为之后加载不同域下的页面进行dns预解析
     * 利用缓存: 在webpack打包时用确定chunkhash,使其在内容不更改时可利用缓存 (NamedModulesPlugin)
     * 使用cdn: 将资源放在cdn上
+    
+### 一面代码设计优化
+    
+``` javascript
+// 1 实现符合特定需求的setInterval
+// 总结: 第一问没问题, 第二问(添加clearTimeout功能)光想了怎么return setid, 没换个角度用思考问题, 用闭包解决
+function _setIterval(callback, time) {
+  var _setid
+  _setid = setTimeout(function cb() {
+    callback()
+    _setid = setTimeout(cb, time)
+  }, time)
+  return function() {
+    clearTimeout(_setid)
+  }
+}
+
+// 2 顺序拼接异步接收的字符串
+// 总结: Promise.all虽学过但没用过, 现场写时不熟练
+
+// html结构
+// <input type="text" id="input">
+// <button id="btn">点我发送请求</button>
+
+// 模拟http接口,响应异步随机返回
+function httpFeedBack() {
+  var i = Math.random() * 10
+  var ret = (Math.random() * 10000000000000 + '').slice(1, 4)
+  console.log(ret)
+  return new Promise(function(resolve) {
+    setTimeout(function() {
+      resolve(ret)
+    }, 200 * i)
+  })
+}
+
+var input = document.getElementById('input')
+
+var getAll = (function() {
+  // 设置promise数组
+  var promiseAll = []
+  // return 闭包, 操作promiseAll
+  return function() {
+    var value = ''
+    promiseAll.push(httpFeedBack())
+    Promise.all(promiseAll)
+      .then(function(datas) {
+        datas.forEach(function(item, index) {
+          value += item
+        })
+      })
+      .then(function() {
+        input.value = value
+      })
+  }
+})()
+
+document.getElementById('btn').onclick = getAll
+
+// 3 'ababbbccc'规定只能用正则表达式去重
+// 总结原因: 正则表达式'\num'知识盲点
+function deRepeat(str) {
+  str = str.replace(/(.)(\1)+/g, '$1')
+  return str
+}
+console.log(deRepeat('ababbbccc')) // ababc
+```
