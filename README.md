@@ -1,6 +1,6 @@
 # 180524-Review
 
-### 首屏性能优化
+## 首屏加载技术
 
 > 页面同步加载过程: 
 
@@ -36,12 +36,12 @@
     * 预解析dns: 用meta标签和link标签设置隐式dns预解析和显式dns预解析, 为之后加载不同域下的页面进行dns预解析
     * 利用缓存: 在webpack打包时用确定chunkhash,使其在内容不更改时可利用缓存 (NamedModulesPlugin)
     * 使用cdn: 将资源放在cdn上
-    
-### 一面代码设计优化
+      
+## 一面代码Review
     
 ``` javascript
 // 1 实现符合特定需求的setInterval
-// 总结: 第一问没问题, 第二问(添加clearTimeout功能)光想了怎么return setid, 没换个角度用思考问题, 用闭包解决
+// 总结: 第一问没问题, 第二问(添加clearTimeout功能)光想了怎么return setid, 换个角度用思考问题, 用闭包解决
 function _setIterval(callback, time) {
   var _setid
   _setid = setTimeout(function cb() {
@@ -54,7 +54,7 @@ function _setIterval(callback, time) {
 }
 
 // 2 顺序拼接异步接收的字符串
-// 总结: Promise.all虽学过但没用过, 现场写时不熟练
+// 总结: Promise.all虽学过但没用过, 第一次用
 
 // html结构
 // <input type="text" id="input">
@@ -96,7 +96,7 @@ var getAll = (function() {
 document.getElementById('btn').onclick = getAll
 
 // 3 'ababbbccc'规定只能用正则表达式去重
-// 总结原因: 正则表达式'\num'知识盲点
+// 总结: 正则表达式'\num'知识盲点
 function deRepeat(str) {
   str = str.replace(/(.)(\1)+/g, '$1')
   return str
