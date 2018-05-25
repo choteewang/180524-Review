@@ -9,7 +9,7 @@
   * 组件懒加载: '火车票', '机票', 这两个tab, 不是首屏默认选中tab, 可以异步加载(webpack import + magic Comments), 若使用React,由于样式和js文件分离, 可以将tab[index].css与tab[index].js打到一个bundle里, 保证加载组件时样式及时输出
   * 组件下拉加载: '更多旅行'组件由于在页面底部, 不在初渲染范围内, 此组件可异步加载(监听window的scroll事件,获取dom.getBoundingClientRect().top与window.innerHeight做对比)
   * 组件复用: '国内酒店','国际酒店','钟点房',可封装为一个组件用props控制复用
-  * 默认数据占位: 设置需填充的默认数据值占位, 在第一次用户进入页面时显示默认占位数据
+  * 默认数据占位: 设置需填充的默认数据值占位(比如地理信息), 在第一次用户进入页面时显示默认占位数据
   * 组件占位 1: '一大波优惠正在来袭'组件占位
   * 组件占位 2: 轮播图底部用一个img组件占位, 设置宽高, 防止抖动, src设置base64(webpack url-loader);
   * 组件占位 3: '查找酒店'上显示一个动画效果组件, 增加视觉预期
@@ -17,7 +17,7 @@
 > 同步加载完成后(DomContentLoaded事件)的异步加载过程: 
 
   * ajax获取活动内容, 用活动组件(webpack import + magicComments)替换'一大波优惠正在来袭'组件
-  * 浏览器存储: 从localStorage获取地理位置信息, 将地理位置存入Redux或Vuex(方便组件间地理位置共享), 将'查找酒店'button上的动画组件卸载
+  * 浏览器存储: 从localStorage获取地理位置信息, 替换页面默认数据占位, 并存入Redux或Vuex(方便组件间地理位置共享), 将'查找酒店'button上的动画组件卸载
   * 用cookie带着sessionid请求服务端session判断身份(因为不需数据,可用head请求只获取报文首部), 异步加载我的酒店组件
   * ajax获取轮播图图片地址数组, 异步加载轮播图组件(图片从cdn加载)
   
