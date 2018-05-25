@@ -34,7 +34,7 @@
     * webpack import + magicComments, 非核心代码异步加载
   * 其他:
     * 预解析dns: 用meta标签和link标签设置隐式dns预解析和显式dns预解析, 为之后加载不同域下的页面进行dns预解析
-    * 利用缓存: 在webpack打包时用确定chunkhash,使其在内容不更改时可利用缓存 (NamedModulesPlugin)
+    * 利用缓存: 在webpack打包时使用chunkhash代替hash (NamedModulesPlugin),使其在内容不更改时可利用浏览器缓存
     * 使用cdn: 将资源放在cdn上
       
 ## 一面代码Review
