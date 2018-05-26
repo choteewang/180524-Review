@@ -30,6 +30,7 @@
     * webpack构建时将manifest部分打入页面与ssr一同输出 (HtmlWebpackPlugin + HtmlWebpackInlineSourcePlugin)
   * 减少请求体积:
     * js/css/html Uglify
+    * 图片压缩,用低质量的小图代替大图
     * 生产环境上线后服务器开启gzip压缩
     * webpack import + magicComments, 非核心代码异步加载
   * 其他:
