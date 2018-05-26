@@ -23,7 +23,7 @@
 
   * 减少http请求数
     * 合并common下的js文件, 组件js文件(vue/jsx), vendor文件
-    * 将对应组件或区块的css和js打包到一个文件里,
+    * 将对应组件或区块的css和js打包到一个文件里, 保证对应的组件或模块加载时css可以快速到位
     * 合并全局css文件, 构建时生成style标签合入html模板(因为首屏css较少, 没必要link多一个请求), 从后端ssr输出
     * 底部 `2 * 4` 图标区块的所有图标打进一个sprite图中(webpack postcss-sprites) 
     * 提供base64 (url-loader)
